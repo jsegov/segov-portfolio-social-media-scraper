@@ -282,6 +282,3 @@ s3_secret_key = "env(S3_SECRET_KEY)"
 
 [functions.x-scraper]
 verify_jwt = false
-[cron.jobs.daily_x_scrape]
-schedule = "0 0 * * *"
-task = { function = "x-scraper" }
