@@ -27,16 +27,16 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: 1.123.0
+          version: latest
       
       - name: Set Environment Variables
         run: |
-          supabase secrets set X_USERNAME=$X_USERNAME MY_SUPABASE_URL=$MY_SUPABASE_URL MY_SUPABASE_KEY=$MY_SUPABASE_KEY --project-ref $PROJECT_ID
+          supabase secrets set X_USERNAME=$X_USERNAME MY_SUPABASE_URL=$MY_SUPABASE_URL MY_SUPABASE_KEY=$MY_SUPABASE_KEY --project-ref $PROJECT_ID --debug
           
       - name: Deploy Edge Functions
         run: |
-          supabase functions deploy x-scraper --project-ref $PROJECT_ID
+          supabase functions deploy x-scraper --project-ref $PROJECT_ID --debug
       
-      - name: Push config (including cron job)
+      - name: Push config
         run: |
-          supabase config push --project-ref $PROJECT_ID 
+          supabase config push --project-ref $PROJECT_ID  --debug
