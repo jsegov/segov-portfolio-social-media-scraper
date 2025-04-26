@@ -1,0 +1,44 @@
+name: Deploy Supabase Edge Functions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'supabase/functions/**'
+      - 'supabase/config.toml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      X_USERNAME: ${{ secrets.X_USERNAME }}
+      MY_SUPABASE_URL: ${{ secrets.MY_SUPABASE_URL }}
+      MY_SUPABASE_KEY: ${{ secrets.MY_SUPABASE_KEY }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      
+      - name: Set Environment Variables
+        run: |
+          supabase secrets set X_USERNAME=$X_USERNAME --project-ref $PROJECT_ID 
+          supabase secrets set MY_SUPABASE_URL=$MY_SUPABASE_URL --project-ref $PROJECT_ID 
+          supabase secrets set MY_SUPABASE_KEY=$MY_SUPABASE_KEY --project-ref $PROJECT_ID 
+          
+      - name: Deploy Edge Functions
+        run: |
+          supabase functions deploy x-scraper --project-ref $PROJECT_ID
+      
+      - name: Push config (including cron job)
+        run: |
+          supabase config push --project-ref $PROJECT_ID 
