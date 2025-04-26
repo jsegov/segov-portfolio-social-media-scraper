@@ -31,9 +31,7 @@ jobs:
       
       - name: Set Environment Variables
         run: |
-          supabase secrets set X_USERNAME=$X_USERNAME --project-ref $PROJECT_ID 
-          supabase secrets set MY_SUPABASE_URL=$MY_SUPABASE_URL --project-ref $PROJECT_ID 
-          supabase secrets set MY_SUPABASE_KEY=$MY_SUPABASE_KEY --project-ref $PROJECT_ID 
+          supabase secrets set X_USERNAME=$X_USERNAME MY_SUPABASE_URL=$MY_SUPABASE_URL MY_SUPABASE_KEY=$MY_SUPABASE_KEY --project-ref $PROJECT_ID
           
       - name: Deploy Edge Functions
         run: |
