@@ -8,7 +8,7 @@ type TweetRow = {
   is_retweet: boolean;
 };
 
-const SUPABASE = createClient(
+const supabase = createClient(
   Deno.env.get("MY_SUPABASE_URL")!,
   Deno.env.get("MY_SUPABASE_KEY")!,
 );
@@ -258,7 +258,7 @@ function extractTweets(html: string, username: string): TweetRow[] {
 
 async function upsertTweets(rows: TweetRow[]) {
   if (!rows.length) return;
-  const { error } = await SUPABASE.from("x_posts_table")
+  const { error } = await supabase.from("x_posts_table")
     .upsert(rows, { onConflict: "tweet_id" });
   if (error) throw error;
 }

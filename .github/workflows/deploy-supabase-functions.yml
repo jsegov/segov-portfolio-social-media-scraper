@@ -36,6 +36,7 @@ jobs:
       - name: Deploy Edge Functions
         run: |
           supabase functions deploy x-scraper --project-ref $PROJECT_ID --debug
+          supabase functions deploy get-x-data --project-ref $PROJECT_ID --debug
       
       - name: Push config
         run: |
